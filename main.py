@@ -25,3 +25,17 @@ while True:
     #    break
     if i == 20:
         break
+a = 0
+# Ambil data menggunakan BeautifulSoup setelah semua data terload
+soup = BeautifulSoup(driver.page_source, "html.parser")
+# Lakukan proses dan penyimpanan data sesuai kebutuhan Anda
+contents = soup.findAll('div',{'class':'MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 MuiGrid-grid-lg-4 css-12y6uts'})
+for content in contents:
+    name = content.findNext('h3',{'class':'MuiTypography-root MuiTypography-h6 MuiTypography-alignLeft css-nxqa8p'}).text
+    link = content.findNext('div',{'class':'MuiBox-root css-8atqhb'})
+    link = link.find('a')['href']
+
+    a += 1
+    print(a)
+    print(name)
+    print(link)
