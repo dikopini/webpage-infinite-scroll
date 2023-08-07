@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+import pandas as pd
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option('detach', True)
@@ -10,7 +11,7 @@ driver = webdriver.Chrome(options=options)
 url = 'https://www.futurepedia.io/'
 driver.get (url)
 
-scroll_pause_time = 2  # Jeda antara setiap pengguliran
+scroll_pause_time = 3  # Jeda antara setiap pengguliran
 screen_height = driver.execute_script("return window.screen.height;")   # Tinggi layar browser
 i = 1
 while True:
@@ -21,10 +22,12 @@ while True:
 
     # Cek apakah sudah mencapai akhir halaman
     scroll_height = driver.execute_script("return document.body.scrollHeight;")
-    #if screen_height * i > scroll_height:
-    #    break
-    if i == 20:
+    if screen_height * i > scroll_height:
         break
+    elif i == 1000:
+        break
+
+hasil = []
 a = 0
 # Ambil data menggunakan BeautifulSoup setelah semua data terload
 soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -36,6 +39,15 @@ for content in contents:
     link = link.find('a')['href']
 
     a += 1
-    print(a)
-    print(name)
-    print(link)
+    #print(name)
+    #print(link)
+    result = {
+        'Tool Name' : name,
+        'Domain Name' : link
+    }
+    hasil.append(result)
+
+df = pd.DataFrame(hasil)
+df.to_csv('AI_Tool.csv', index=False)
+print(f'data sebanyak ',a,' sudah diambil.')
+print('file csv created')
