@@ -11,7 +11,7 @@ driver = webdriver.Chrome(options=options)
 url = 'https://www.futurepedia.io/'
 driver.get (url)
 
-scroll_pause_time = 3  # Jeda antara setiap pengguliran
+scroll_pause_time = 4  # Jeda antara setiap pengguliran
 screen_height = driver.execute_script("return window.screen.height;")   # Tinggi layar browser
 i = 1
 while True:
@@ -48,6 +48,7 @@ for content in contents:
     hasil.append(result)
 
 df = pd.DataFrame(hasil)
-df.to_csv('AI_Tool.csv', index=False)
+df.to_csv('futurepedia.csv', index=False)
+print(f'scroll sebanyak ',i, ' kali.')
 print(f'data sebanyak ',a,' sudah diambil.')
 print('file csv created')
